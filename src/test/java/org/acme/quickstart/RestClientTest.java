@@ -43,4 +43,16 @@ class RestClientTest {
 		
 		assertEquals(data, List.of("foo"));
 	}
+
+	@Test
+	void canConsumeStream() {
+		Multi<String> response = helloService.greetingsAsStream(7, "foobar");
+		
+		List<String> data = response
+			.collectItems().asList()
+			.await().atMost(Duration.ofSeconds(5));
+		
+		assertEquals(data, List.of("foo"));
+	}
+
 }
