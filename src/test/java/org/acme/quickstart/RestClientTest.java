@@ -73,7 +73,6 @@ class RestClientTest {
 		WebTarget target = client.target("http://localhost:8081/hello/stream/3/foobar");
 		try (SseEventSource eventSource = SseEventSource.target(target).build()) {
 			eventSource.register(event -> {
-				System.out.println("Got event " + event);
 				String data = event.readData();
 				items.add(data);
 				
