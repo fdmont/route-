@@ -32,7 +32,7 @@ public class ReactiveGreetingResource {
 	public Multi<String> greetingsAsStream(@PathParam("count") int count, @PathParam("name") String name) {
 	    return service.greetings(count, name);
 	}
-	
+
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/greeting/{name}")
