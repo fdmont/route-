@@ -10,6 +10,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.quarkus:quarkus-rest-client-mutiny'
     implementation 'io.quarkus:quarkus-resteasy-jsonb'
     implementation 'io.quarkus:quarkus-resteasy-mutiny'
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
