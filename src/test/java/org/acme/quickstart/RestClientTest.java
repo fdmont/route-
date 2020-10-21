@@ -1,11 +1,12 @@
 package org.acme.quickstart;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
+import java.time.Duration;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 import javax.inject.Inject;
 
@@ -24,35 +25,25 @@ class RestClientTest {
 	@Inject @RestClient HelloApi helloService;
 	
 	@Test
-	void canConsumeSingle() throws InterruptedException {
+	void canConsumeSingle() throws InterruptedException, ExecutionException, TimeoutException {
 		Uni<String> response = helloService.greeting("foobar");
 
-		CountDownLatch done = new CountDownLatch(1);
-		AtomicReference<String> item = new AtomicReference<>();
-
-		response
+		String out = response
 			.subscribe()
-			.with(s -> {
-				item.set(s);
-				done.countDown();;
-			});
-		
-		if (!done.await(5, TimeUnit.SECONDS)) {
-			fail("Failed to receive data in time");
-		}
-		
-		assertEquals("hello foobar", item.get());
+			.asCompletionStage()
+			.get(5, SECONDS);
+
+		assertEquals("hello foobar", out);
 	}
 
-//	@Test
+	@Test
 	void canConsumeList() {
 		Multi<String> response = helloService.greetings(7, "foobar");
 		
-		response
-			.subscribe()
-			.with(
-					msg -> System.out.println("Message " + msg),
-					failure -> fail("List consumtion failed", failure));
+		List<String> data = response
+			.collectItems().asList()
+			.await().atMost(Duration.ofSeconds(5));
+		
+		assertEquals(data, List.of("foo"));
 	}
-
 }
