@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 import io.quarkus.test.junit.QuarkusTest;
 import io.smallrye.mutiny.Uni;
 
+/**
+ * Runs against localhost:8080 (see HelloApi), so quarkusDev needs to be running.
+ */
 @QuarkusTest
 class RestClientTest {
 	@Inject @RestClient HelloApi helloService;

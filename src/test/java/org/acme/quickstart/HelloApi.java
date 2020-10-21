@@ -12,7 +12,7 @@ import org.jboss.resteasy.annotations.SseElementType;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 
-@RegisterRestClient(baseUri = "http://localhost:8081/")
+@RegisterRestClient(baseUri = "http://localhost:8080/")
 @Path("/hello")
 public interface HelloApi {
 	@GET
