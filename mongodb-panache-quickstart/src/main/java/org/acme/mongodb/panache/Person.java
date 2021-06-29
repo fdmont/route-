@@ -1,5 +1,4 @@
 package org.acme.mongodb.panache;
-
 import java.time.LocalDate;
 import java.util.List;
 

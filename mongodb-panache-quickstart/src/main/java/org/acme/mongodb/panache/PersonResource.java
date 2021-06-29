@@ -1,5 +1,4 @@
 package org.acme.mongodb.panache;
-
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -10,6 +9,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.bson.types.ObjectId;
@@ -28,6 +28,17 @@ public class PersonResource {
     @Path("/{id}")
     public Person get(@PathParam("id") String id) {
         return Person.findById(new ObjectId(id));
+    }
+
+    @GET
+    @Path("/add")
+    public Response creates(@QueryParam("name") String name){
+        Person person = new Person();
+        person.name = name;
+        person.status = Status.LIVING;
+
+        person.persist();
+        return Response.status(201).build();
     }
 
     @POST
