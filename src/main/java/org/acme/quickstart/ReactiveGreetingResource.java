@@ -12,7 +12,7 @@ import org.jboss.resteasy.annotations.SseElementType;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 
-@Path("/hello")
+@Path("/hello0")
 public class ReactiveGreetingResource {
 
 	@Inject
@@ -34,7 +34,7 @@ public class ReactiveGreetingResource {
 	}
 
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/greeting/{name}")
     public Uni<String> greeting(@PathParam("name") String name) {
         return service.greeting(name);
@@ -42,8 +42,15 @@ public class ReactiveGreetingResource {
 
     
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public String hello() {
         return "hello";
     }
+
+	@GET
+	@Path("uni")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Uni<String> uni() {
+		return Uni.createFrom().item("hola uni");
+	}
 }
